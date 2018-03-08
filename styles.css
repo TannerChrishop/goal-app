@@ -1,0 +1,67 @@
+section {
+    text-align:center;
+    width: 95%;
+    border: 1px solid;
+    border-radius:3px;
+    margin:auto;
+}
+
+#list, #one, #two, #three {
+    padding: 0px;
+}
+
+ul {
+    margin:0,5px;
+}
+
+li {
+    margin:auto;
+    margin top:5px;
+    margin-bottom:2px;
+    border-radius:2px;
+    width: 95;
+    list-style-type: none;
+}
+
+#one li {
+    background-color: deepskyblue;
+}
+
+ #two li {
+    background-color: lightgreen;
+}
+
+#three li {
+    background-color: mediumpurple;
+}
+
+.ion-checkmark {
+    color: green;
+}
+
+.ion-edit {
+    color:sandybrown;
+}
+
+.ion-trash-b {
+    color: orangered;
+}
+
+span {
+    padding:5px;
+}
+
+.completed {
+    float:left;
+    margin-left:5px;
+}
+
+.edit, .delete {
+    float:right;
+    margin-right:5px;
+}
+
+.complete {
+    text-decoration: line-through;
+}
+
