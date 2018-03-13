@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Goal Gambling</title>
+        <link rel="icon" href="https://ibb.co/h8Omxn">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css?family=Limelight" rel="stylesheet">
         <link rel = 'stylesheet' href = 'styles.css'/>
         <link rel = "stylesheet" href = "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
     </head>
     <body>
-        <section>
-            <input type = 'text' placeholder = 'Enter Goal' maxlength = '55'/>
-            <select>
-                <option value = 'one'>primary</option>
-                <option value = 'two'>secondary</option>
-                <option value = 'three'>miscellaneous</option>
-            </select> 
-            <ul id = 'list'>
-                <ul id = 'one'>     
+        <div class = 'box'>
+            <section>
+                <div class = 'main box'>
+                    <input id = 'textInput' type = 'text' placeholder = 'Enter Goal' maxlength = '55'/>
+                    <select id = 'typeSelect'>
+                        <option value = 'one'>High Priority</option>
+                        <option value = 'two'>Mid Priority</option>
+                        <option value = 'three'>Low Priority</option>
+                    </select> 
+                    <input id = 'wager' placeholder = "Wager" type="number" min="0"/>
+                </div>
+                <ul id = 'list'>
+                    <ul id = 'one'>     
+                    </ul>
+                    <ul id = 'two'>     
+                    </ul>
+                    <ul id = 'three'>     
+                    </ul>
                 </ul>
-                <ul id = 'two'>     
-                </ul>
-                <ul id = 'three'>     
-                </ul>
-            </ul>
-        </section>
+                    <div class = 'points p1'>Top Points: <span id = 'p1'>0</div>
+                    <div class = 'points p2'>Mid Points: <span id = 'p2'>0</div>
+                    <div class = 'points p3'>Low Points: <span id = 'p3'>0</div>
+                </section>
+            </div>
         <script src ="app.js"></script>
     </body>
 </html>

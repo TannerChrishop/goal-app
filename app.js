@@ -6,19 +6,30 @@ var model = (function () {
         three: []
     };
     
-    function Goal(val) {
+    function Goal(val, wager) {
         
         this.val = val;
         this.completed = false;
+        if (wager > 0) {
+            this.wager = wager;
+        } else {
+            this.wager = 0;
+        }
     }
+    
+    var points = {
+        one: 0,
+        two: 0,
+        three: 0
+    };
     
     return {
         addGoal: function () {
             
             return {
-                newGoal: function (val, type) {
+                newGoal: function (val, type, wager) {
                     
-                    var newGoal = new Goal(val);
+                    var newGoal = new Goal(val, wager);
                     todoObj[type].push(newGoal);
                 },
                 
@@ -35,12 +46,25 @@ var model = (function () {
                 
                 toggle: function (type, pos) {
                     
-                    todoObj[type][pos].completed = !todoObj[type][pos].completed;
+                    var goalToggled = todoObj[type][pos];
+                    
+                    if (goalToggled.completed) {
+                        goalToggled.completed = false;
+                        points[type] -= (goalToggled.wager * 2) + 1;
+                    } else {
+                        todoObj[type][pos].completed = true;
+                        points[type] += (goalToggled.wager * 2) + 1;
+                    }
                 },
-
+            
                 getGoals: function () {
                     
                     return todoObj;
+                },
+                
+                getPoints: function () {
+                    
+                    return points;
                 }
             };
         }
@@ -56,12 +80,20 @@ var view = (function () {
     };
     
     return {
+        
         input: {
-            field: document.querySelector('input'),
-            type: document.querySelector('select')
+            field: document.getElementById('textInput'),
+            type: document.getElementById('typeSelect'),
+            wager: document.getElementById('wager')
         },
         
         lists: lists,
+        
+        pointContaiers: {
+            one: document.getElementById('p1'),
+            two: document.getElementById('p2'),
+            three: document.getElementById('p3')
+        },
         
         render: function (type, goal) {
             
@@ -97,6 +129,8 @@ var controller = (function (modelAccess, viewAccess) {
     var input = viewAccess.input;
     var lists = viewAccess.lists;
     var goal = modelAccess.addGoal();
+    var pointBoxes = viewAccess.pointContaiers;
+    var points = goal.getPoints();
     
     function deleteGoal(e) {
             
@@ -118,7 +152,7 @@ var controller = (function (modelAccess, viewAccess) {
             var type = pos.parentElement.id;
             e.target.parentElement.innerHTML = "<input id = 'edit' type = 'text' placeholder = '" +
                 text + "'><button id = 'confirm'>Confirm</button><button id = 'cancel'>Cancel</button>";
-            var edit =  document.getElementById('edit');
+            var edit = document.getElementById('edit');
             edit.focus();
             document.getElementById('confirm').addEventListener('click', function () {
                 
@@ -142,6 +176,7 @@ var controller = (function (modelAccess, viewAccess) {
             var posID = pos.id;
             var type = pos.parentElement.id;
             goal.toggle(type, posID);
+            pointBoxes[type].innerHTML = " " + points[type];
             viewAccess.render(type, goal);
         }
     }
@@ -150,10 +185,20 @@ var controller = (function (modelAccess, viewAccess) {
         
         var val = input.field.value.trim();
         if (val) {
+            var wager = input.wager.value;
             var type = input.type.value;
-            goal.newGoal(val, type, goal);
-            viewAccess.render(type, goal);
-            input.field.value = '';
+            if (wager <= points[type]) {
+                goal.newGoal(val, type, wager);
+                viewAccess.render(type, goal);
+                if (wager > 0) {
+                    points[type] -= wager;
+                    pointBoxes[type].innerHTML = " " + points[type];
+                }
+                input.field.value = '';
+                input.wager.value = '';
+            } else {
+                alert('Complete more goals of the same tier to wager that much');
+            }
         }
     }
     
