@@ -1,10 +1,26 @@
 var model = (function () {
+    var todoObj;
+    var points;
     
-    var todoObj = {
-        one: [],
-        two: [],
-        three: []
-    };
+    if (Boolean(localStorage.getItem('goalList'))) {
+        todoObj = JSON.parse(localStorage.getItem('goalList'));
+    } else {
+        todoObj = {
+            one: [],
+            two: [],
+            three: []
+        };
+    }
+    
+    if (Boolean(localStorage.getItem('pointList'))) {
+        points = JSON.parse(localStorage.getItem('pointList'));
+    } else {
+        points = {
+            one: 0,
+            two: 0,
+            three: 0
+        };
+    }
     
     function Goal(val, wager) {
         
@@ -16,12 +32,6 @@ var model = (function () {
             this.wager = 0;
         }
     }
-    
-    var points = {
-        one: 0,
-        two: 0,
-        three: 0
-    };
     
     return {
         addGoal: function () {
@@ -42,6 +52,19 @@ var model = (function () {
                   
                     todoObj[type][pos].val = val;
                     
+                },
+                
+                reset: function () {
+                    todoObj = {
+                        one: [],
+                        two: [],
+                        three: []
+                    };
+                    points = {
+                        one: 0,
+                        two: 0,
+                        three: 0
+                    };
                 },
                 
                 toggle: function (type, pos) {
@@ -95,6 +118,8 @@ var view = (function () {
             three: document.getElementById('p3')
         },
         
+        resetButton: document.getElementById('reset'),
+        
         render: function (type, goal) {
             
             var list = lists[type];
@@ -140,6 +165,7 @@ var controller = (function (modelAccess, viewAccess) {
             var type = pos.parentElement.id;
             goal.spliceGoal(type, posID);
             viewAccess.render(type, goal);
+            localStorage.setItem('goalList', JSON.stringify(goal.getGoals()));
         }
     }
     
@@ -178,6 +204,8 @@ var controller = (function (modelAccess, viewAccess) {
             goal.toggle(type, posID);
             pointBoxes[type].innerHTML = " " + points[type];
             viewAccess.render(type, goal);
+            localStorage.setItem('goalList', JSON.stringify(goal.getGoals()));
+            localStorage.setItem('pointList', JSON.stringify(goal.getPoints()));
         }
     }
     
@@ -196,6 +224,7 @@ var controller = (function (modelAccess, viewAccess) {
                 }
                 input.field.value = '';
                 input.wager.value = '';
+                localStorage.setItem('goalList', JSON.stringify(goal.getGoals()));
             } else {
                 alert('Complete more goals of the same tier to wager that much');
             }
@@ -209,6 +238,32 @@ var controller = (function (modelAccess, viewAccess) {
         }
     });
     
+    function reset() {
+        var r = confirm('are you sure you want to reset everything?');
+        if (r) {
+            localStorage.clear();
+            goal.reset();
+            pointBoxes.one.innerHTML = " " + '0';
+            pointBoxes.two.innerHTML = " " + '0';
+            pointBoxes.three.innerHTML = " " + '0';
+            viewAccess.render('one', goal);
+            viewAccess.render('two', goal);
+            viewAccess.render('three', goal);
+        }
+    }
+    
+    if (Boolean(localStorage.getItem('goalList'))) {
+        viewAccess.render('one', goal);
+        viewAccess.render('two', goal);
+        viewAccess.render('three', goal);
+    }
+    
+    if (Boolean(localStorage.getItem('pointList'))) {
+        pointBoxes.one.innerHTML = " " + points.one;
+        pointBoxes.two.innerHTML = " " + points.two;
+        pointBoxes.three.innerHTML = " " + points.three;
+    }
+    
     return {
         setUpEvents: function () {
             
@@ -216,8 +271,10 @@ var controller = (function (modelAccess, viewAccess) {
             masterList.addEventListener('click', deleteGoal);
             masterList.addEventListener('click', editGoal);
             masterList.addEventListener('click', toggleGoal);
+            viewAccess.resetButton.addEventListener('click', reset);
         }
     };
+    
                         
 }(model, view));
 

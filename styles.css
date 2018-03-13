@@ -24,7 +24,7 @@ ul {
 }
 
 li {
-    border:2px solid white;
+    border:2px solid black;
     margin:auto;
     border-radius:2px;
     width: 95;
@@ -33,23 +33,39 @@ li {
 }
 
 #one li {
-
-    background-color: orangered;
+    background:repeating-linear-gradient(
+        90deg, 
+        white,
+        white 8%,
+        #222 8%,
+        #222 30%);
 }
 
 #two li {
      
-    background-color: orange;
+     background:repeating-linear-gradient(
+       90deg, 
+        white,
+        white 8%,
+        dodgerblue 8%,
+        dodgerblue 30%);
 }
 
 #three li {
-    background-color: gold;
+         background:repeating-linear-gradient(
+       90deg, 
+        white,
+        white 8%,
+        gold 8%,
+        gold 30%);
 }
 
 .ion-checkmark {
     color: darkgreen;
-    font-size: 1em;
-    border:1px solid white;
+    font-size: 1.2em;
+    border:1px solid black;
+    background-color: white; 
+    border-radius: 5px;
 }
 
 .ion-checkmark:hover {
@@ -58,8 +74,10 @@ li {
 
 .ion-edit {
     color:sandybrown;
-    font-size:1em;
-    border:1px solid white;
+    font-size:1.2em;
+    border:1px solid black;
+    background-color: white; 
+    border-radius: 5px;
 }
 
 .ion-edit:hover {
@@ -67,9 +85,11 @@ li {
 }
 
 .ion-trash-b {
-    color: orangered;
-    font-size: 1em;
-    border:1px solid white;
+    color: crimson;
+    font-size: 1.2em;
+    border:1px solid black;
+    background-color: white; 
+    border-radius: 5px;
 }
 
 .ion-trash-b:hover {
@@ -108,7 +128,7 @@ li {
 
 .points {
     display: inline-block;
-    margin: 15px 5%;
+    margin: 2% 4%;
     background-color:limegreen;
     border: 2px groove white;
     padding:5px;
@@ -117,6 +137,7 @@ li {
 }
 
 span {
+    letter-spacing: 1px;
     padding:5px;
     font-size: 1.2em;
     background:transparent;
@@ -129,16 +150,29 @@ span {
 }
 
 .p1 span {
-    color: orangered;
+    color: #222;
     font-size:1.2em;
 }
 
 .p2 span{
-    color: orange;
+    color: dodgerblue;
     font-size: 1.2em;
 }
 
 .p3 span{
     color: gold;
     font-size:1.2em;
+}
+
+#reset {
+    display:block;
+    background-color: orangered;
+    border: 2px black groove;
+    border-radius:5px;
+    font-weight: 800;
+    margin:auto;
+}
+
+#reset:hover {
+    cursor: pointer;
 }
