@@ -119,6 +119,8 @@ var view = (function () {
         },
         
         resetButton: document.getElementById('reset'),
+        help: document.getElementById('help'),
+        temp: document.getElementById("template"),
         
         render: function (type, goal) {
             
@@ -264,6 +266,15 @@ var controller = (function (modelAccess, viewAccess) {
         pointBoxes.three.innerHTML = " " + points.three;
     }
     
+    function getHelp() {
+        var temp = viewAccess.temp;
+        if (temp.id === 'template') {
+            temp.id = 'nontemplate'
+        } else {
+            temp.id = 'template';
+        }
+    }
+    
     return {
         setUpEvents: function () {
             
@@ -272,6 +283,7 @@ var controller = (function (modelAccess, viewAccess) {
             masterList.addEventListener('click', editGoal);
             masterList.addEventListener('click', toggleGoal);
             viewAccess.resetButton.addEventListener('click', reset);
+            viewAccess.help.addEventListener('click', getHelp);
         }
     };
     

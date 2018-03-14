@@ -11,6 +11,7 @@
     <body>
         <div class = 'box outer'>
             <section>
+                <button id = 'help'>?</button>
                 <div class = 'main box'>
                     <input id = 'textInput' type = 'text' placeholder = 'Enter Goal' maxlength = '55'/>
                     <select id = 'typeSelect'>
@@ -33,6 +34,13 @@
                 <div class = 'points p3'>Low Chips: <span id = 'p3'>0</div>
                 <button id = 'reset'>RESET</button>
             </section>
+        </div>
+        <div id = 'template'>
+            Enter a goal and choose a priority to organize your goals by whatever criteria you like. <br/><br/>
+            Click the pencil to edit your goal and the trash bin to delete it. <br/><br/> Upon completion, click the 
+            checkmark beside your goal. You get one point for every goal you complete. <br/><br/>You can then use these points to bet on the success of new goals of the same priority. <br/><br/> If you complete the new goal, you'll still get your 
+            one point, plus double your wager. <br/><br/> The point is to help you quantify the momentum you gain from completing
+            goals and reinvest that mementum into new ones.<br/><br/>This site will store your data if you leave and come back, but resetting it will erase all your goals and points forever.
         </div>
         <script src ="app.js"></script>
     </body>

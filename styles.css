@@ -186,8 +186,37 @@ span {
     cursor: pointer;
 }
 
-.outer {
-    width: 60%;
-    margin:auto;
-    margin-top: 10%;
+#help {
+    display:block;
+    border-radius:50%;
+    background-color:darkmagenta;
+    box-sizing: border-box;
+    font-size: 1.2em;
+    font-weight:600;
+    border:black 2px groove;
+    width: 25px;
+}
+
+#help:hover {
+    cursor:pointer;
+}
+
+#template {
+    display: none;
+}
+
+#nontemplate {
+    background-color:white;
+    border-radius:5px;
+    padding:1%;
+    margin-top:5%;
+}
+
+@media only screen and (min-width: 700px) {
+    
+        .outer {
+        width: 60%;
+        margin:auto;
+        margin-top: 10%;
+    }
 }
