@@ -96,11 +96,17 @@ var model = (function () {
 
 var view = (function () {
     
+    var pointContainers = {
+            one: document.getElementById('p1'),
+            two: document.getElementById('p2'),
+            three: document.getElementById('p3')
+        }
+    
     var lists = {
         one: document.getElementById('one'),
         two: document.getElementById('two'),
         three: document.getElementById('three')
-    };
+    }
     
     return {
         
@@ -112,11 +118,8 @@ var view = (function () {
         
         lists: lists,
         
-        pointContaiers: {
-            one: document.getElementById('p1'),
-            two: document.getElementById('p2'),
-            three: document.getElementById('p3')
-        },
+        pointContainers: pointContainers, 
+           
         
         resetButton: document.getElementById('reset'),
         help: document.getElementById('help'),
@@ -124,9 +127,13 @@ var view = (function () {
         
         render: function (type, goal) {
             
+            var points = goal.getPoints();
+            var point = points[type]; 
+            var pointList = pointContainers[type];
             var list = lists[type];
             var goals = goal.getGoals();
             var array = goals[type];
+            pointList.innerHTML = point;
             list.innerHTML = '';
             array.forEach(function (item, index) {
                 var li = document.createElement('li');
@@ -156,8 +163,20 @@ var controller = (function (modelAccess, viewAccess) {
     var input = viewAccess.input;
     var lists = viewAccess.lists;
     var goal = modelAccess.addGoal();
-    var pointBoxes = viewAccess.pointContaiers;
     var points = goal.getPoints();
+    var pointBoxes = viewAccess.pointContainers;
+    
+    if (Boolean(localStorage.getItem('goalList'))) {
+        viewAccess.render('one', goal);
+        viewAccess.render('two', goal);
+        viewAccess.render('three', goal);
+    }
+    
+    if (Boolean(localStorage.getItem('pointList'))) {
+        pointBoxes.one.innerHTML = " " + points.one;
+        pointBoxes.two.innerHTML = " " + points.two;
+        pointBoxes.three.innerHTML = " " + points.three;
+    }
     
     function deleteGoal(e) {
             
@@ -204,7 +223,6 @@ var controller = (function (modelAccess, viewAccess) {
             var posID = pos.id;
             var type = pos.parentElement.id;
             goal.toggle(type, posID);
-            pointBoxes[type].innerHTML = " " + points[type];
             viewAccess.render(type, goal);
             localStorage.setItem('goalList', JSON.stringify(goal.getGoals()));
             localStorage.setItem('pointList', JSON.stringify(goal.getPoints()));
@@ -219,7 +237,7 @@ var controller = (function (modelAccess, viewAccess) {
             var type = input.type.value;
             if (wager <= points[type]) {
                 goal.newGoal(val, type, wager);
-                viewAccess.render(type, goal);
+                viewAccess.render(type, goal, points);
                 if (wager > 0) {
                     points[type] -= wager;
                     pointBoxes[type].innerHTML = " " + points[type];
@@ -243,27 +261,12 @@ var controller = (function (modelAccess, viewAccess) {
     function reset() {
         var r = confirm('are you sure you want to reset everything?');
         if (r) {
-            localStorage.clear();
             goal.reset();
-            pointBoxes.one.innerHTML = " " + '0';
-            pointBoxes.two.innerHTML = " " + '0';
-            pointBoxes.three.innerHTML = " " + '0';
+            localStorage.clear();
             viewAccess.render('one', goal);
             viewAccess.render('two', goal);
             viewAccess.render('three', goal);
         }
-    }
-    
-    if (Boolean(localStorage.getItem('goalList'))) {
-        viewAccess.render('one', goal);
-        viewAccess.render('two', goal);
-        viewAccess.render('three', goal);
-    }
-    
-    if (Boolean(localStorage.getItem('pointList'))) {
-        pointBoxes.one.innerHTML = " " + points.one;
-        pointBoxes.two.innerHTML = " " + points.two;
-        pointBoxes.three.innerHTML = " " + points.three;
     }
     
     function getHelp() {
